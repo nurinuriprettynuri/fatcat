@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>FAT CAT</title>
+    <style>
+      .up,
+      .down,
+      .right,
+      .left {
+        background: url("./src/img/fatcat.png") no-repeat;
+      }
+
+      .up {
+        width: 32px;
+        height: 32px;
+        background-position: 0 0;
+      }
+
+      .down {
+        width: 32px;
+        height: 32px;
+        background-position: 32px 0;
+      }
+
+      .right {
+        width: 32px;
+        height: 32px;
+        background-position: 64px 0;
+      }
+
+      .left {
+        width: 32px;
+        height: 32px;
+        background-position: -65px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="myCanvas" width="800" height="800"></canvas>
+    <script type="text/javascript" src="./dist/bundle.js"></script>
+  </body>
+</html>
