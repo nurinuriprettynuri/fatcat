@@ -328,11 +328,13 @@ document.addEventListener("DOMContentLoaded", () => {
           draw();
         } else {
           miss = false;
-          clearInterval(drawCat);
-          this.game();
+          console.log("ya!");
+          return game();
+          // clearInterval(drawCat);
         }
       }, 12);
     }, 3000);
   }
+
   game();
 });
