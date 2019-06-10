@@ -14,9 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let yframeIdx = 0;
   let life = 3;
   let score = 0;
-  let level = 1;
+  let level = 2;
   let foods = {};
-  let miss;
+  let win = false;
+  let lose = false;
+  let donoteatarr = [];
+  let miss = false;
 
   const food_urls = [
     "./src/img/food/apple.png",
@@ -139,8 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
         eachFood.height,
         eachFood.food_x,
         eachFood.food_y,
-        eachFood.width,
-        eachFood.height
+        eachFood.width * 0.8,
+        eachFood.height * 0.8
       );
     }
   }
@@ -202,8 +205,8 @@ document.addEventListener("DOMContentLoaded", () => {
       cat.height,
       cat.x,
       cat.y,
-      cat.width,
-      cat.height
+      cat.width * 1.2,
+      cat.height * 1.2
     );
   }
 
@@ -227,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
         donoteat.forEach(e => {
           if (food_keys[i] === e) {
             life -= 1;
-            console.log(life);
+            miss = true;
           }
         });
         delete foods[food_keys[i]];
@@ -243,29 +246,56 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
       );
     }
+    donoteat.forEach(e => {
+      donoteatarr.push(e);
+    });
   }
 
-  function before() {
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+  function drawBackground() {
+    ctx.fillStyle = "red";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
 
-    donoteat.forEach(e => {
-      ctx.drawImage(
-        foods[e].food_image,
-        0,
-        0,
-        foods[e].width,
-        foods[e].height,
-        foods[e].food_x,
-        foods[e].food_y,
-        foods[e].width,
-        foods[e].height
-      );
-    });
+  function drawText(level) {
+    ctx.fillStyle = "white";
+    ctx.font = "50px Helvetica, sans";
+    ctx.textAlign = "center";
+    ctx.fillText(`* Level ${level} *`, canvas.width / 2, 110);
+    ctx.fillText(`Do not eat`, canvas.width / 2, 220);
+  }
+
+  // class Before{
+  //   constructor(){
+  //     this.foods =
+  //   }
+
+  // }
+
+  function before(e) {
+    drawBackground();
+    drawText(2);
+    console.log(e);
+
+    console.log(foods[e]);
+    ctx.drawImage(
+      foods[e].food_image,
+      0,
+      0,
+      foods[e].width,
+      foods[e].height,
+      canvas.width / 2 - foods[e].width,
+      canvas.height / 2,
+      foods[e].width * 1.2,
+      foods[e].height * 1.2
+    );
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ffffcc";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     draw_food();
     draw_cat();
 
@@ -283,10 +313,26 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteItem();
   }
 
-  food_init();
-  food_to_avoid(level);
-  before();
-  setTimeout(() => {
-    setInterval(draw, 12);
-  }, 2000);
+  function game() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    food_init();
+    food_to_avoid(level);
+
+    let beforeSetInterval = setInterval(function() {
+      before(donoteatarr.shift());
+      if (!donoteatarr.length) clearInterval(beforeSetInterval);
+    }, 700);
+    setTimeout(() => {
+      let drawCat = setInterval(function() {
+        if (!miss) {
+          draw();
+        } else {
+          miss = false;
+          clearInterval(drawCat);
+          this.game();
+        }
+      }, 12);
+    }, 3000);
+  }
+  game();
 });
