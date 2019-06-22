@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let life = 3;
   let score = 0;
   let level = 2;
-  let foods = {};
+  let foods;
   let win = false;
   let lose = false;
-  let donoteatarr = [];
+  let donoteatarr;
   let miss = false;
 
   const food_urls = [
@@ -51,9 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "./src/img/food/sushi.png",
     "./src/img/food/sweet_potato.png"
   ];
-  let foodPos = [];
+  let foodPos;
   let foods_idx = new Set();
-  let donoteat = new Set();
+  let donoteat;
 
   //   const food_cord = [[x + 90, y + 90], [x + 100, y + 100]];
 
@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cat = new Cat(canvas.width, canvas.height);
 
   function setPos() {
+    foodPos = [];
     let alldone = false;
     let food_x;
     let food_y;
@@ -118,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function food_init() {
+    foods = {};
     random_food_idx();
     foods_idx.forEach(i => {
       let not_important = food_urls[i].split("/");
@@ -239,6 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function food_to_avoid(level) {
+    donoteatarr = [];
+    donoteat = new Set();
     while (donoteat.size < level) {
       donoteat.add(
         Object.keys(foods)[
@@ -263,13 +267,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.fillText(`* Level ${level} *`, canvas.width / 2, 110);
     ctx.fillText(`Do not eat`, canvas.width / 2, 220);
   }
-
-  // class Before{
-  //   constructor(){
-  //     this.foods =
-  //   }
-
-  // }
 
   function before(e) {
     drawBackground();
@@ -312,28 +309,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     deleteItem();
   }
-
+  let i;
   function game() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    food_init();
-    food_to_avoid(level);
+    i++;
+    console.log(i);
+    return new Promise(function(resolve, reject) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      food_init();
+      food_to_avoid(level);
 
-    let beforeSetInterval = setInterval(function() {
-      before(donoteatarr.shift());
-      if (!donoteatarr.length) clearInterval(beforeSetInterval);
-    }, 700);
-    setTimeout(() => {
-      let drawCat = setInterval(function() {
-        if (!miss) {
-          draw();
-        } else {
-          miss = false;
-          console.log("ya!");
-          return game();
-          // clearInterval(drawCat);
-        }
-      }, 12);
-    }, 3000);
+      let beforeSetInterval = setInterval(function() {
+        console.log("inIntev");
+        before(donoteatarr.shift());
+        if (!donoteatarr.length) clearInterval(beforeSetInterval);
+      }, 700);
+
+      setTimeout(() => {
+        let drawCat = setInterval(function() {
+          if (!miss) {
+            draw();
+          } else {
+            console.log("ya!");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            clearInterval(drawCat);
+            miss = false;
+            console.log("After");
+            resolve();
+          }
+        }, 12);
+      }, 3000);
+    }).then(game);
   }
 
   game();
