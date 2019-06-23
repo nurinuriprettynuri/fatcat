@@ -3,9 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>FAT CAT</title>
     <style>
+      #game-info {
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+        align-items: center;
+      }
       .up,
       .down,
       .right,
@@ -36,11 +46,54 @@
         height: 32px;
         background-position: -65px 0;
       }
+
+      #main {
+        display: none;
+        margin: 0 auto;
+      }
+
+      #game-info {
+        font-family: "Press Start 2P", cursive;
+      }
+
+      #fatcatintro {
+        font-family: "Press Start 2P", cursive;
+      }
+
+      .exp {
+        cursor: pointer;
+        margin-top: 8px;
+        font-size: 13px;
+      }
+
+      .exp:hover {
+        font-size: 14px;
+      }
+
+      #catimg-div {
+        margin: 0 auto;
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
     </style>
   </head>
 
   <body>
-    <canvas id="myCanvas" width="1000" height="700"></canvas>
-    <script type="text/javascript" src="./dist/bundle.js"></script>
+    <div id="game-info">
+      <div id="fatcatintro">FAT CAT</div>
+      <div id="catimg-div"><img src="./src/img/main-cat.png" /></div>
+      <div id="about" class="exp">About</div>
+      <div id="start" class="exp">Start</div>
+    </div>
+
+    <div id="about-page">
+      <div class="exp">Back</div>
+    </div>
+
+    <div id="main">
+      <canvas id="myCanvas" width="900" height="500"></canvas>
+    </div>
   </body>
+
+  <script type="text/javascript" src="./dist/bundle.js"></script>
 </html>

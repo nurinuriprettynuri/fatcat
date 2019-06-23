@@ -1,7 +1,7 @@
 const Cat = require("./cat.js");
 const Food = require("./food.js");
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", e => {
   let canvas = document.getElementById("myCanvas");
   let ctx = canvas.getContext("2d");
   let rightPressed = false;
@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let lose = false;
   let donoteatarr;
   let miss = false;
+  let main = document.getElementById("main");
+  let startButton = document.getElementById("start");
 
   const food_urls = [
     "./src/img/food/apple.png",
@@ -71,19 +73,19 @@ document.addEventListener("DOMContentLoaded", () => {
       alldone = true;
       food_x = Math.floor(Math.random() * canvas.width);
       food_y = Math.floor(Math.random() * canvas.height);
-      if (food_x < 32 || food_x > canvas.width - 32) {
+      if (food_x < 22 || food_x > canvas.width - 22) {
         alldone = false;
         continue;
       }
-      if (food_y < 32 || food_y > canvas.height - 32) {
+      if (food_y < 22 || food_y > canvas.height - 22) {
         alldone = false;
         continue;
       }
       for (let i = 0; i < foodPos.length; i++) {
         if (
           !(
-            (foodPos[i][0] - food_x < -50 || foodPos[i][0] - food_x > 50) &&
-            (foodPos[i][1] - food_y < -50 || foodPos[i][1] - food_y > 50)
+            (foodPos[i][0] - food_x < -20 || foodPos[i][0] - food_x > 20) &&
+            (foodPos[i][1] - food_y < -20 || foodPos[i][1] - food_y > 20)
           )
         ) {
           alldone = false;
@@ -91,8 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (
         !(
-          (cat.x - food_x < -50 || cat.x - food_x > 50) &&
-          (cat.y - food_y < -50 || cat.y - food_y > 50)
+          (cat.x - food_x < -20 || cat.x - food_x > 20) &&
+          (cat.y - food_y < -20 || cat.y - food_y > 20)
         )
       ) {
         alldone = false;
@@ -312,14 +314,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let i;
   function game() {
     i++;
-    console.log(i);
     return new Promise(function(resolve, reject) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       food_init();
       food_to_avoid(level);
 
       let beforeSetInterval = setInterval(function() {
-        console.log("inIntev");
         before(donoteatarr.shift());
         if (!donoteatarr.length) clearInterval(beforeSetInterval);
       }, 700);
@@ -329,7 +329,6 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!miss) {
             draw();
           } else {
-            console.log("ya!");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             clearInterval(drawCat);
             miss = false;
@@ -341,5 +340,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }).then(game);
   }
 
-  game();
+  startButton.addEventListener("click", () => {
+    main.style.display = "block";
+    //game start here maybe...
+    game();
+  });
 });
