@@ -1,4 +1,5 @@
 const Cat = require("./cat.js");
+const Wall = require("./wall.js");
 const Food = require("./food.js");
 
 document.addEventListener("DOMContentLoaded", e => {
@@ -63,6 +64,7 @@ document.addEventListener("DOMContentLoaded", e => {
   document.addEventListener("keyup", keyUpHandler, false);
 
   const cat = new Cat(canvas.width, canvas.height);
+  const wall = new Wall();
 
   function setPos() {
     foodPos = [];
@@ -223,13 +225,14 @@ document.addEventListener("DOMContentLoaded", e => {
       eachFood = foods[food_keys[i]];
 
       foodx = eachFood.food_x;
-
       foody = eachFood.food_y;
+      console.log(foodx, foody);
+      console.log(cat.x, cat.y);
       if (
-        foodx <= cat.x &&
-        foodx + 32 >= cat.x &&
-        foody <= cat.y &&
-        foody + 32 >= cat.y
+        foodx - 7 <= cat.x &&
+        foodx + 40 >= cat.x + cat.width &&
+        foody - 7 <= cat.y &&
+        foody + 40 >= cat.y + cat.height
       ) {
         donoteat.forEach(e => {
           if (food_keys[i] === e) {
@@ -294,19 +297,71 @@ document.addEventListener("DOMContentLoaded", e => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#ffffcc";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //draw walls
+    let i = 0;
+    while (25 > i) {
+      ctx.drawImage(
+        wall.wallImage,
+        0,
+        0,
+        wall.width,
+        wall.height,
+        i * wall.width,
+        0,
+        wall.width,
+        wall.height
+      );
+      ctx.drawImage(
+        wall.wallImage,
+        0,
+        0,
+        wall.width,
+        wall.height,
+        i * wall.width,
+        608,
+        wall.width,
+        wall.height
+      );
+      ctx.drawImage(
+        wall.wallImage,
+        0,
+        0,
+        wall.width,
+        wall.height,
+        0,
+        i * wall.width,
+        wall.width,
+        wall.height
+      );
+      ctx.drawImage(
+        wall.wallImage,
+        0,
+        0,
+        wall.width,
+        wall.height,
+        768,
+        i * wall.width,
+        wall.width,
+        wall.height
+      );
+      i++;
+    }
 
     draw_food();
     draw_cat();
 
     //   if (rightPressed && cat.x < canvas.width - cat.width) {
 
-    if (rightPressed) {
+    if (rightPressed && cat.x < canvas.width - cat.width - wall.width) {
       cat.x += 3;
-    } else if (leftPressed) {
+    } else if (leftPressed && cat.x > wall.width) {
       cat.x -= 3;
-    } else if (upPressed) {
+    } else if (upPressed && cat.y > wall.width - 9) {
       cat.y -= 3;
-    } else if (downPressed) {
+    } else if (
+      downPressed &&
+      cat.y < canvas.height - cat.width - wall.width - 5
+    ) {
       cat.y += 3;
     }
     deleteItem();
@@ -341,7 +396,7 @@ document.addEventListener("DOMContentLoaded", e => {
   }
 
   startButton.addEventListener("click", () => {
-    main.style.display = "block";
+    main.style.display = "flex";
     //game start here maybe...
     game();
   });

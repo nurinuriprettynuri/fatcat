@@ -3,95 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./src/css/main.css" />
     <link
       href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
+
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>FAT CAT</title>
-    <style>
-      #game-info {
-        width: 500px;
-        height: 500px;
-        margin: 0 auto;
-        align-items: center;
-      }
-      .up,
-      .down,
-      .right,
-      .left {
-        background: url("./src/img/fatcat.png") no-repeat;
-      }
-
-      .up {
-        width: 32px;
-        height: 32px;
-        background-position: 0 0;
-      }
-
-      .down {
-        width: 32px;
-        height: 32px;
-        background-position: 32px 0;
-      }
-
-      .right {
-        width: 32px;
-        height: 32px;
-        background-position: 64px 0;
-      }
-
-      .left {
-        width: 32px;
-        height: 32px;
-        background-position: -65px 0;
-      }
-
-      #main {
-        display: none;
-        margin: 0 auto;
-      }
-
-      #game-info {
-        font-family: "Press Start 2P", cursive;
-      }
-
-      #fatcatintro {
-        font-family: "Press Start 2P", cursive;
-      }
-
-      .exp {
-        cursor: pointer;
-        margin-top: 8px;
-        font-size: 13px;
-      }
-
-      .exp:hover {
-        font-size: 14px;
-      }
-
-      #catimg-div {
-        margin: 0 auto;
-        margin-top: 40px;
-        margin-bottom: 20px;
-      }
-    </style>
   </head>
 
   <body>
-    <div id="game-info">
+    <div id="game-intro" class="game-info">
       <div id="fatcatintro">FAT CAT</div>
       <div id="catimg-div"><img src="./src/img/main-cat.png" /></div>
       <div id="about" class="exp">About</div>
       <div id="start" class="exp">Start</div>
     </div>
 
-    <div id="about-page">
+    <div id="about-page" class="game-info">
+      <div><img src="./src/img/aboutcat.png" /></div>
+      <div>Let's feed our hungry cat</div>
+      <div>Here's a thing tho!</div>
+      <div>Cat must avoid the forbidden food</div>
       <div class="exp">Back</div>
     </div>
 
     <div id="main">
-      <canvas id="myCanvas" width="900" height="500"></canvas>
+      <canvas id="myCanvas" width="800" height="640"></canvas>
     </div>
   </body>
 
