@@ -22,7 +22,10 @@ document.addEventListener("DOMContentLoaded", e => {
   let donoteatarr;
   let miss = false;
   let main = document.getElementById("main");
+  let about = document.getElementById("about-page");
+  let gameIntro = document.getElementById("game-intro");
   let startButton = document.getElementById("start");
+  let aboutButton = document.getElementById("about");
 
   const food_urls = [
     "./src/img/food/apple.png",
@@ -117,9 +120,7 @@ document.addEventListener("DOMContentLoaded", e => {
       idx = Math.floor(Math.random() * food_urls.length);
       foods_idx.add(idx);
     }
-    foods_idx.forEach(e => {
-      console.log(e);
-    });
+    foods_idx.forEach(e => {});
   }
 
   function food_init() {
@@ -131,7 +132,6 @@ document.addEventListener("DOMContentLoaded", e => {
 
       let pos_arr = setPos();
       foods[food_key] = new Food(pos_arr[0], pos_arr[1], food_urls[i]);
-      console.log(foods[food_key]);
     });
   }
 
@@ -226,8 +226,6 @@ document.addEventListener("DOMContentLoaded", e => {
 
       foodx = eachFood.food_x;
       foody = eachFood.food_y;
-      console.log(foodx, foody);
-      console.log(cat.x, cat.y);
       if (
         foodx - 7 <= cat.x &&
         foodx + 40 >= cat.x + cat.width &&
@@ -276,9 +274,7 @@ document.addEventListener("DOMContentLoaded", e => {
   function before(e) {
     drawBackground();
     drawText(2);
-    console.log(e);
 
-    console.log(foods[e]);
     ctx.drawImage(
       foods[e].food_image,
       0,
@@ -387,7 +383,6 @@ document.addEventListener("DOMContentLoaded", e => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             clearInterval(drawCat);
             miss = false;
-            console.log("After");
             resolve();
           }
         }, 12);
@@ -395,7 +390,14 @@ document.addEventListener("DOMContentLoaded", e => {
     }).then(game);
   }
 
+  aboutButton.addEventListener("click", () => {
+    console.log("kkkk");
+    about.style.display = "block";
+    gameIntro.style.display = "none";
+  });
+
   startButton.addEventListener("click", () => {
+    console.log(".s.s");
     main.style.display = "flex";
     //game start here maybe...
     game();
