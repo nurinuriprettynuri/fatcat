@@ -59,12 +59,34 @@
   font-size: 14px;
 }
 
-#catimg-div {
+.catimg-div {
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 50px;
   margin-bottom: 20px;
 }
 
 #about-page {
   display: none;
+}
+
+.title {
+  margin: 0 auto;
+  /* width: 100%; */
+  font-size: 17px;
+  margin-bottom: 10px;
+  /* display: flex; */
+  /* align-items: center; */
+}
+
+#intro-div {
+  width: 500px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.game-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

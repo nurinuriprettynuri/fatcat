@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", e => {
   let gameIntro = document.getElementById("game-intro");
   let startButton = document.getElementById("start");
   let aboutButton = document.getElementById("about");
+  let backButton = document.getElementById("back");
 
   const food_urls = [
     "./src/img/food/apple.png",
@@ -112,6 +113,8 @@ document.addEventListener("DOMContentLoaded", e => {
     }
   }
 
+  //position check
+
   //randomly pick 12 food...
   function random_food_idx() {
     let idx = 2;
@@ -135,24 +138,59 @@ document.addEventListener("DOMContentLoaded", e => {
     });
   }
 
-  function draw_food() {
-    let food_keys = Object.keys(foods);
-    let eachFood;
-    for (let i = 0; i < food_keys.length; i++) {
-      eachFood = foods[food_keys[i]];
+  //food drawing function!
+  function drawFoodTest() {
+    let oneFood = Object.keys(foods);
+    let chosen = foods[oneFood[0]];
+    let innerPosition = [
+      [cat.x - 28, cat.y - 25],
+      [cat.x + 55, cat.y + 30],
+      [cat.x - 50, cat.y + 60],
+      [cat.x + 30, cat.y - 65],
+      [cat.x + 60, cat.y - 40],
+      [cat.x + 15, cat.y + 75],
+      [cat.x - 75, cat.y + 2],
+      [cat.x - 37, cat.y - 75],
+      [cat.x + 95, cat.y - 30],
+      [cat.x - 100, cat.y - 80],
+      [cat.x + 100, cat.y + 70],
+      [cat.x + 80, cat.y - 100],
+      [cat.x - 50, cat.y + 100]
+    ];
+
+    for (let i = 0; i < innerPosition.length; i++) {
       ctx.drawImage(
-        eachFood.food_image,
+        chosen.food_image,
         0,
         0,
-        eachFood.width,
-        eachFood.height,
-        eachFood.food_x,
-        eachFood.food_y,
-        eachFood.width * 0.8,
-        eachFood.height * 0.8
+        chosen.width,
+        chosen.height,
+        innerPosition[i][0],
+        innerPosition[i][1],
+        chosen.width * 0.8,
+        chosen.height * 0.8
       );
     }
   }
+
+  // function draw_food() {
+  //   let food_keys = Object.keys(foods);
+  //   let eachFood;
+  //   for (let i = 0; i < food_keys.length; i++) {
+  //     eachFood = foods[food_keys[i]];
+  //     ctx.drawImage(
+  //       eachFood.food_image,
+  //       0,
+  //       0,
+  //       eachFood.width,
+  //       eachFood.height,
+  //       eachFood.food_x,
+  //       eachFood.food_y,
+  //       eachFood.width * 0.8,
+  //       eachFood.height * 0.8
+  //     );
+  //   }
+  // }
 
   function keyDownHandler(e) {
     if (e.keyCode == 39) {
@@ -295,7 +333,7 @@ document.addEventListener("DOMContentLoaded", e => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     //draw walls
     let i = 0;
-    while (25 > i) {
+    while (canvas.width / 32 > i) {
       ctx.drawImage(
         wall.wallImage,
         0,
@@ -314,36 +352,15 @@ document.addEventListener("DOMContentLoaded", e => {
         wall.width,
         wall.height,
         i * wall.width,
-        608,
-        wall.width,
-        wall.height
-      );
-      ctx.drawImage(
-        wall.wallImage,
-        0,
-        0,
-        wall.width,
-        wall.height,
-        0,
-        i * wall.width,
-        wall.width,
-        wall.height
-      );
-      ctx.drawImage(
-        wall.wallImage,
-        0,
-        0,
-        wall.width,
-        wall.height,
-        768,
-        i * wall.width,
+        canvas.height - wall.height,
         wall.width,
         wall.height
       );
       i++;
     }
 
-    draw_food();
+    // draw_food();
+    drawFoodTest();
     draw_cat();
 
     //   if (rightPressed && cat.x < canvas.width - cat.width) {
@@ -391,15 +408,19 @@ document.addEventListener("DOMContentLoaded", e => {
   }
 
   aboutButton.addEventListener("click", () => {
-    console.log("kkkk");
-    about.style.display = "block";
+    about.style.display = "flex";
     gameIntro.style.display = "none";
   });
 
   startButton.addEventListener("click", () => {
-    console.log(".s.s");
     main.style.display = "flex";
     //game start here maybe...
-    game();
   });
+
+  backButton.addEventListener("click", () => {
+    about.style.display = "none";
+    gameIntro.style.display = "";
+  });
+  main.style.display = "flex";
+  game();
 });
