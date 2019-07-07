@@ -1,0 +1,32 @@
+const food_urls = [
+  "./src/img/food/apple.png",
+  "./src/img/food/banana.png",
+  "./src/img/food/beer.png",
+  "./src/img/food/burger.png",
+  "./src/img/food/cake.png",
+  "./src/img/food/cherry.png",
+  "./src/img/food/corn.png",
+  "./src/img/food/croissant.png",
+  "./src/img/food/custard.png",
+  "./src/img/food/dango.png",
+  "./src/img/food/donut.png",
+  "./src/img/food/fries.png",
+  "./src/img/food/grapes.png",
+  "./src/img/food/ice_cream.png",
+  "./src/img/food/lemon.png",
+  "./src/img/food/meat.png",
+  "./src/img/food/orange.png",
+  "./src/img/food/peach.png",
+  "./src/img/food/pear.png",
+  "./src/img/food/pie.png",
+  "./src/img/food/pineapple.png",
+  "./src/img/food/pisha.png",
+  "./src/img/food/ramen.png",
+  "./src/img/food/shaved_ice.png",
+  "./src/img/food/spaghetti.png",
+  "./src/img/food/strawberry.png",
+  "./src/img/food/sushi.png",
+  "./src/img/food/sweet_potato.png"
+];
+
+module.exports = food_urls;

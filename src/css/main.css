@@ -90,3 +90,8 @@
   flex-direction: column;
   align-items: center;
 }
+
+.myCanvas {
+  width: 100%;
+  margin: 0 auto;
+}

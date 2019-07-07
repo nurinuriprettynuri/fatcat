@@ -2,6 +2,8 @@ const Cat = require("./cat.js");
 const Wall = require("./wall.js");
 const Food = require("./food.js");
 const Plant = require("./plant.js");
+const food_urls = require("./foodUrls.js");
+const AngryCat = require("./angrycat.js");
 
 document.addEventListener("DOMContentLoaded", e => {
   let canvas = document.getElementById("myCanvas");
@@ -30,36 +32,6 @@ document.addEventListener("DOMContentLoaded", e => {
   let backButton = document.getElementById("back");
   let pass = false;
 
-  const food_urls = [
-    "./src/img/food/apple.png",
-    "./src/img/food/banana.png",
-    "./src/img/food/beer.png",
-    "./src/img/food/burger.png",
-    "./src/img/food/cake.png",
-    "./src/img/food/cherry.png",
-    "./src/img/food/corn.png",
-    "./src/img/food/croissant.png",
-    "./src/img/food/custard.png",
-    "./src/img/food/dango.png",
-    "./src/img/food/donut.png",
-    "./src/img/food/fries.png",
-    "./src/img/food/grapes.png",
-    "./src/img/food/ice_cream.png",
-    "./src/img/food/lemon.png",
-    "./src/img/food/meat.png",
-    "./src/img/food/orange.png",
-    "./src/img/food/peach.png",
-    "./src/img/food/pear.png",
-    "./src/img/food/pie.png",
-    "./src/img/food/pineapple.png",
-    "./src/img/food/pisha.png",
-    "./src/img/food/ramen.png",
-    "./src/img/food/shaved_ice.png",
-    "./src/img/food/spaghetti.png",
-    "./src/img/food/strawberry.png",
-    "./src/img/food/sushi.png",
-    "./src/img/food/sweet_potato.png"
-  ];
   const plantUrls = [
     // "./src/img/plant/cactus.png",
     // "./src/img/plant/herb.png",
@@ -68,11 +40,19 @@ document.addEventListener("DOMContentLoaded", e => {
     // "./src/img/plant/sunflower.png"
     // "./src/img/plant/tulip.png"
   ];
+
+  // const angryCats = [
+  //   "./src/img/angrycat/angrycat.png",
+  //   "./src/img/angrycat/angrycat2.png",
+  //   "./src/img/angrycat/angrycat3.png"
+  // ];
+
   let foodPos;
   let foods_idx = new Set();
   let donoteat;
   const cat = new Cat(canvas.width, canvas.height);
   const wall = new Wall();
+  const angryCat = new AngryCat();
 
   let positionSet = [
     [
@@ -420,9 +400,10 @@ document.addEventListener("DOMContentLoaded", e => {
   }
 
   function game(level, life) {
-    if (life === 0) {
-      return;
-    }
+    // if (life === 0) {
+    //   console.log("??");
+    //   return;
+    // }
     cat.x = (canvas.width - cat.width) / 2;
     cat.y = (canvas.height - cat.height) / 2;
     return new Promise(function(resolve, reject) {
@@ -430,11 +411,21 @@ document.addEventListener("DOMContentLoaded", e => {
       food_init(level);
       food_to_avoid(level + 1);
 
-      let beforeSetInterval = setInterval(function() {
-        before(donoteatarr.shift());
-        if (!donoteatarr.length) clearInterval(beforeSetInterval);
-      }, 700);
-
+      if (life > 0) {
+        if (life >= 3) {
+          let beforeSetInterval = setInterval(function() {
+            before(donoteatarr.shift());
+            if (!donoteatarr.length) clearInterval(beforeSetInterval);
+          }, 700);
+        } else {
+          setTimeout(() => {
+            let beforeSetInterval = setInterval(function() {
+              before(donoteatarr.shift());
+              if (!donoteatarr.length) clearInterval(beforeSetInterval);
+            }, 700);
+          }, 900);
+        }
+      }
       setTimeout(() => {
         let drawCat = setInterval(function() {
           if (!miss && life > 0) {
@@ -451,8 +442,28 @@ document.addEventListener("DOMContentLoaded", e => {
           } else if (miss && life > 0) {
             //miss
             life -= 1;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            //lost page (angry cat)
+            console.log("1");
+
+            // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
             clearInterval(drawCat);
+            let test = setInterval(() => {
+              ctx.drawImage(
+                angryCat.angryCatImage,
+                0,
+                0,
+                angryCat.width,
+                angryCat.height,
+                0,
+                0,
+                angryCat.width,
+                angryCat.height
+              );
+            }, 12);
+            setTimeout(() => {
+              clearInterval(test);
+            }, 400);
             miss = false;
             resolve();
           } else {
@@ -476,6 +487,7 @@ document.addEventListener("DOMContentLoaded", e => {
   startButton.addEventListener("click", () => {
     main.style.display = "flex";
     //game start here maybe...
+    gameIntro.style.display = "none";
     game(level, life);
   });
 
