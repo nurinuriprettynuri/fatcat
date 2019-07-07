@@ -123,7 +123,6 @@ document.addEventListener("DOMContentLoaded", e => {
   //randomly pick x food...
   function random_food_idx(level) {
     let idx = 2;
-
     let foodCount;
 
     if (level < 4) {
